@@ -1,0 +1,226 @@
+/* ═══════════════════════════════════════════════════════
+   CAKEIT Design Token System
+   Source: Figma Scale + Semantic Token JSON
+   Structure: Scale (Primitives) → Semantic (Light/Dark)
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Scale Tokens (Primitives) ─── */
+/* 테마와 무관한 고정 원시값. 직접 사용 금지 — 시멘틱 토큰을 통해 참조. */
+
+:root {
+  /* Gray */
+  --scale-gray-0: #FFFFFF;
+  --scale-gray-10: #F5F5F5;
+  --scale-gray-20: #E0E0E0;
+  --scale-gray-30: #BDBDBD;
+  --scale-gray-40: #9E9E9E;
+  --scale-gray-50: #757575;
+  --scale-gray-60: #616161;
+  --scale-gray-70: #424242;
+  --scale-gray-80: #2C2C2C;
+  --scale-gray-90: #1A1A1A;
+  --scale-gray-100: #000000;
+
+  /* Brand (Pink) */
+  --scale-brand-05: #FFF0F5;
+  --scale-brand-10: #FFDEE9;
+  --scale-brand-30: #FF99B8;
+  --scale-brand-50: #FF5C8D;
+  --scale-brand-70: #D9366A;
+  --scale-brand-90: #8A153A;
+
+  /* Blue */
+  --scale-blue-10: #EFF8FF;
+  --scale-blue-20: #D1E9FF;
+  --scale-blue-30: #84CAFF;
+  --scale-blue-40: #5296FF;
+  --scale-blue-50: #148AFF;
+  --scale-blue-60: #006EDD;
+  --scale-blue-70: #0052A5;
+  --scale-blue-80: #003872;
+  --scale-blue-90: #001D3D;
+
+  /* Green */
+  --scale-green-10: #E6F9EE;
+  --scale-green-20: #B9F0D2;
+  --scale-green-30: #8CE9B2;
+  --scale-green-40: #33CB73;
+  --scale-green-50: #00B84D;
+  --scale-green-60: #00943E;
+  --scale-green-70: #006E2E;
+  --scale-green-80: #00481F;
+  --scale-green-90: #00240F;
+
+  /* Yellow */
+  --scale-yellow-10: #FFF8E1;
+  --scale-yellow-20: #FFECB3;
+  --scale-yellow-30: #FFE082;
+  --scale-yellow-40: #FFCA28;
+  --scale-yellow-50: #F29900;
+  --scale-yellow-60: #D68700;
+  --scale-yellow-70: #B06F00;
+  --scale-yellow-80: #8A5700;
+  --scale-yellow-90: #4F3200;
+
+  /* Red */
+  --scale-red-10: #FEF3F2;
+  --scale-red-20: #FEE4E2;
+  --scale-red-30: #FECDCA;
+  --scale-red-40: #FDA29B;
+  --scale-red-50: #F04438;
+  --scale-red-60: #D92D20;
+  --scale-red-70: #B42318;
+  --scale-red-80: #912018;
+  --scale-red-90: #2D1010;
+
+  /* Alpha — Black */
+  --scale-black-a04: rgba(0, 0, 0, 0.04);
+  --scale-black-a08: rgba(0, 0, 0, 0.08);
+  --scale-black-a12: rgba(0, 0, 0, 0.12);
+  --scale-black-a40: rgba(0, 0, 0, 0.40);
+  --scale-black-a80: rgba(0, 0, 0, 0.80);
+
+  /* Alpha — White */
+  --scale-white-a04: rgba(255, 255, 255, 0.04);
+  --scale-white-a08: rgba(255, 255, 255, 0.08);
+  --scale-white-a12: rgba(255, 255, 255, 0.12);
+  --scale-white-a40: rgba(255, 255, 255, 0.40);
+  --scale-white-a80: rgba(255, 255, 255, 0.80);
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+}
+
+
+/* ─── Semantic Tokens: Light Mode (Default) ─── */
+
+:root,
+[data-theme="light"] {
+
+  /* Foreground */
+  --fg-neutral: var(--scale-gray-90);           /* #1A1A1A — 기본 텍스트 */
+  --fg-neutral-muted: var(--scale-gray-60);     /* #616161 — 보조 텍스트 */
+  --fg-neutral-subtle: var(--scale-gray-40);    /* #9E9E9E — 미묘한 텍스트 */
+  --fg-neutral-faint: var(--scale-gray-30);     /* #BDBDBD — 비활성/힌트 */
+  --fg-inverse: var(--scale-gray-0);            /* #FFFFFF — 반전 텍스트 */
+  --fg-danger: var(--scale-red-50);             /* #F04438 — 에러 */
+  --fg-brand: var(--scale-brand-50);            /* #FF5C8D — 브랜드 강조 */
+
+  /* Background */
+  --bg-neutral-under: var(--scale-gray-10);     /* #F5F5F5 — 최하단 배경 */
+  --bg-neutral: var(--scale-gray-0);            /* #FFFFFF — 기본 배경 */
+  --bg-neutral-elevated: var(--scale-gray-0);   /* #FFFFFF — 카드/시트 */
+  --bg-overlay-weak: var(--scale-black-a04);    /* rgba(0,0,0,0.04) */
+  --bg-overlay: var(--scale-black-a08);         /* rgba(0,0,0,0.08) */
+  --bg-overlay-deep: var(--scale-black-a12);    /* rgba(0,0,0,0.12) */
+  --bg-overlay-deem: var(--scale-black-a40);    /* rgba(0,0,0,0.40) */
+  --bg-brand: var(--scale-brand-50);            /* #FF5C8D */
+  --bg-brand-weak: var(--scale-brand-05);       /* #FFF0F5 */
+  --bg-inversed: var(--scale-gray-90);          /* #1A1A1A */
+  --bg-danger: var(--scale-red-50);             /* #F04438 */
+  --bg-danger-weak: var(--scale-red-10);        /* #FEF3F2 */
+  --bg-success: var(--scale-green-50);          /* #00B84D */
+  --bg-success-weak: var(--scale-green-10);     /* #E6F9EE */
+  --bg-informative: var(--scale-blue-50);       /* #148AFF */
+  --bg-informative-weak: var(--scale-blue-10);  /* #EFF8FF */
+
+  /* Stroke */
+  --stroke-neutral: var(--scale-black-a08);     /* rgba(0,0,0,0.08) */
+  --stroke-neutral-weak: var(--scale-black-a04);/* rgba(0,0,0,0.04) */
+  --stroke-neutral-deep: var(--scale-black-a12);/* rgba(0,0,0,0.12) */
+  --stroke-neutral-contrast: var(--scale-black-a80); /* rgba(0,0,0,0.80) */
+  --stroke-brand: var(--scale-brand-50);        /* #FF5C8D */
+  --stroke-brand-weak: var(--scale-brand-30);   /* #FF99B8 */
+  --stroke-danger: var(--scale-red-50);         /* #F04438 */
+  --stroke-danger-weak: var(--scale-red-10);    /* #FEF3F2 */
+}
+
+
+/* ─── Semantic Tokens: Dark Mode ─── */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+
+    /* Foreground */
+    --fg-neutral: var(--scale-gray-10);           /* #F5F5F5 */
+    --fg-neutral-muted: var(--scale-gray-40);     /* #9E9E9E */
+    --fg-neutral-subtle: var(--scale-gray-60);    /* #616161 */
+    --fg-neutral-faint: var(--scale-gray-70);     /* #424242 */
+    --fg-inverse: var(--scale-gray-100);          /* #000000 */
+    --fg-danger: var(--scale-red-50);             /* #F04438 */
+    --fg-brand: var(--scale-brand-50);            /* #FF5C8D */
+
+    /* Background */
+    --bg-neutral-under: var(--scale-gray-100);    /* #000000 */
+    --bg-neutral: var(--scale-gray-90);           /* #1A1A1A */
+    --bg-neutral-elevated: var(--scale-gray-80);  /* #2C2C2C */
+    --bg-overlay-weak: var(--scale-white-a04);    /* rgba(255,255,255,0.04) */
+    --bg-overlay: var(--scale-white-a08);         /* rgba(255,255,255,0.08) */
+    --bg-overlay-deep: var(--scale-white-a12);    /* rgba(255,255,255,0.12) */
+    --bg-overlay-deem: var(--scale-white-a40);    /* rgba(255,255,255,0.40) */
+    --bg-brand: var(--scale-brand-50);            /* #FF5C8D */
+    --bg-brand-weak: var(--scale-brand-90);       /* #8A153A */
+    --bg-inversed: var(--scale-gray-0);           /* #FFFFFF */
+    --bg-danger: var(--scale-red-50);             /* #F04438 */
+    --bg-danger-weak: var(--scale-red-80);        /* #912018 */
+    --bg-success: var(--scale-green-50);          /* #00B84D */
+    --bg-success-weak: var(--scale-green-70);     /* #006E2E */
+    --bg-informative: var(--scale-blue-50);       /* #148AFF */
+    --bg-informative-weak: var(--scale-blue-80);  /* #003872 */
+
+    /* Stroke */
+    --stroke-neutral: var(--scale-white-a08);     /* rgba(255,255,255,0.08) */
+    --stroke-neutral-weak: var(--scale-white-a04);/* rgba(255,255,255,0.04) */
+    --stroke-neutral-deep: var(--scale-white-a12);/* rgba(255,255,255,0.12) */
+    --stroke-neutral-contrast: var(--scale-white-a80); /* rgba(255,255,255,0.80) */
+    --stroke-brand: var(--scale-brand-50);        /* #FF5C8D */
+    --stroke-brand-weak: var(--scale-brand-90);   /* #8A153A */
+    --stroke-danger: var(--scale-red-50);         /* #F04438 */
+    --stroke-danger-weak: var(--scale-red-90);    /* #2D1010 */
+  }
+}
+
+[data-theme="dark"] {
+
+  /* Foreground */
+  --fg-neutral: var(--scale-gray-10);
+  --fg-neutral-muted: var(--scale-gray-40);
+  --fg-neutral-subtle: var(--scale-gray-60);
+  --fg-neutral-faint: var(--scale-gray-70);
+  --fg-inverse: var(--scale-gray-100);
+  --fg-danger: var(--scale-red-50);
+  --fg-brand: var(--scale-brand-50);
+
+  /* Background */
+  --bg-neutral-under: var(--scale-gray-100);
+  --bg-neutral: var(--scale-gray-90);
+  --bg-neutral-elevated: var(--scale-gray-80);
+  --bg-overlay-weak: var(--scale-white-a04);
+  --bg-overlay: var(--scale-white-a08);
+  --bg-overlay-deep: var(--scale-white-a12);
+  --bg-overlay-deem: var(--scale-white-a40);
+  --bg-brand: var(--scale-brand-50);
+  --bg-brand-weak: var(--scale-brand-90);
+  --bg-inversed: var(--scale-gray-0);
+  --bg-danger: var(--scale-red-50);
+  --bg-danger-weak: var(--scale-red-80);
+  --bg-success: var(--scale-green-50);
+  --bg-success-weak: var(--scale-green-70);
+  --bg-informative: var(--scale-blue-50);
+  --bg-informative-weak: var(--scale-blue-80);
+
+  /* Stroke */
+  --stroke-neutral: var(--scale-white-a08);
+  --stroke-neutral-weak: var(--scale-white-a04);
+  --stroke-neutral-deep: var(--scale-white-a12);
+  --stroke-neutral-contrast: var(--scale-white-a80);
+  --stroke-brand: var(--scale-brand-50);
+  --stroke-brand-weak: var(--scale-brand-90);
+  --stroke-danger: var(--scale-red-50);
+  --stroke-danger-weak: var(--scale-red-90);
+}
