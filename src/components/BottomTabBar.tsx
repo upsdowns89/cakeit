@@ -2,21 +2,68 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  SparklesIcon, SparklesSolidIcon,
-  StorefrontIcon, StorefrontSolidIcon,
-  LocationIcon, LocationSolidIcon,
-  BookmarkIcon, BookmarkSolidIcon,
-  UserCircleIcon, ProfileSolidIcon,
-} from '@/components/icons';
+
+/* ── Figma ico-*-solid-24 SVG inline icons ── */
+
+function IcoHome({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M10.4271 2.28912C11.4255 1.83201 12.5745 1.83201 13.5729 2.28912C17.1322 3.91868 19.7839 6.24983 21.0608 7.50731C21.7493 8.18533 22.1172 9.08943 22.1689 10.022C22.2325 11.1711 22.3125 13.0344 22.3125 15.1363C22.3125 16.6196 22.2726 17.9838 22.2269 19.0616C22.1535 20.789 20.7742 22.144 19.0518 22.2031C17.458 22.2577 15.0888 22.3126 12 22.3126C8.91115 22.3126 6.54198 22.2577 4.94823 22.2031C3.22583 22.144 1.84649 20.789 1.77313 19.0616C1.72736 17.9838 1.6875 16.6196 1.6875 15.1363C1.6875 13.0344 1.76754 11.1711 1.83114 10.022C1.88275 9.08943 2.25064 8.18533 2.93917 7.50731C4.21609 6.24983 6.86781 3.91868 10.4271 2.28912ZM8.33333 17.5001C7.82706 17.5001 7.41667 17.9105 7.41667 18.4167C7.41667 18.923 7.82706 19.3334 8.33333 19.3334H15.6667C16.1729 19.3334 16.5833 18.923 16.5833 18.4167C16.5833 17.9105 16.1729 17.5001 15.6667 17.5001H8.33333Z" fill={color} />
+    </svg>
+  );
+}
+
+function IcoLocation({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M11.9113 1C7.88949 1 4.55145 4.10811 4.26491 8.11971C4.12849 10.0294 4.55614 12.0109 5.75867 13.59C7.18902 15.4682 8.64563 16.7581 10.9232 18.2746C11.5748 18.7085 12.4245 18.7085 13.0761 18.2746C15.3536 16.7581 16.8103 15.4682 18.2405 13.59C19.4431 12.0109 19.8708 10.0294 19.7343 8.11971C19.4479 4.10811 16.1098 1 12.088 1H11.9113ZM11.9999 10.75C13.5359 10.75 14.3999 9.886 14.3999 8.35C14.3999 6.814 13.5359 5.95 11.9999 5.95C10.4639 5.95 9.5999 6.814 9.5999 8.35C9.5999 9.886 10.4639 10.75 11.9999 10.75ZM9.81461 19.9394C7.81181 18.6058 6.34488 17.392 4.99293 15.8224C4.22358 15.9283 3.54456 16.4028 3.18443 17.1061L1.35912 20.6707C0.81395 21.7354 1.58714 23 2.78326 23H21.2165C22.418 23 23.1908 21.7254 22.6353 20.6603L20.774 17.0904C20.4162 16.4042 19.7538 15.9394 19.0025 15.8266C17.6516 17.3941 16.1854 18.607 14.1844 19.9394C12.8614 20.8202 11.1376 20.8202 9.81461 19.9394Z" fill={color} />
+    </svg>
+  );
+}
+
+function IcoSparkle({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <g clipPath="url(#clip_sparkle)">
+        <path fillRule="evenodd" clipRule="evenodd" d="M6.05131 0.655509C6.46347 1.18 6.76989 1.79365 6.94077 2.47603C7.62315 2.64691 8.2368 2.95332 8.7613 3.36549C9.63531 4.05234 9.63531 5.3645 8.7613 6.05135C8.23682 6.46351 7.62319 6.76993 6.94082 6.94082C6.76994 7.62319 6.46353 8.23686 6.05136 8.76134C5.36451 9.63535 4.05235 9.63535 3.3655 8.76134C2.95332 8.23686 2.64693 7.62319 2.47603 6.94082C1.79366 6.76993 1.18 6.46353 0.655508 6.05135C-0.218503 5.3645 -0.218503 4.05234 0.655508 3.36549C1.17999 2.95332 1.79361 2.64691 2.47599 2.47603C2.64687 1.79365 2.95327 1.18 3.36545 0.655509C4.0523 -0.218503 5.36446 -0.218503 6.05131 0.655509ZM17.9906 2.92725C17.0635 1.74746 15.2964 1.74746 14.3693 2.92725C13.6506 3.8417 13.1349 4.92988 12.8877 6.15133C11.6662 6.39854 10.5781 6.91432 9.66365 7.63295C8.48386 8.56009 8.48386 10.3272 9.66365 11.2543C10.5781 11.973 11.6663 12.4887 12.8877 12.7359C13.1349 13.9574 13.6507 15.0456 14.3693 15.96C15.2965 17.1398 17.0635 17.1398 17.9908 15.96C18.7094 15.0456 19.2251 13.9574 19.4723 12.7359C20.6937 12.4887 21.7819 11.973 22.6963 11.2543C23.8761 10.3272 23.8761 8.5601 22.6963 7.63295C21.7819 6.91432 20.6937 6.39854 19.4723 6.15133C19.2251 4.92986 18.7093 3.8417 17.9906 2.92725ZM7.77591 11.6238C6.95798 10.583 5.39763 10.583 4.5797 11.6238C4.00039 12.361 3.57948 13.233 3.36588 14.2087C2.39021 14.4223 1.51819 14.8432 0.781035 15.4225C-0.259786 16.2405 -0.259787 17.8008 0.781033 18.6187C1.51821 19.1981 2.39026 19.619 3.36595 19.8326C3.57955 20.8082 4.00046 21.6803 4.57977 22.4176C5.3977 23.4583 6.95805 23.4583 7.77598 22.4176C8.35529 21.6803 8.7762 20.8082 8.9898 19.8326C9.96549 19.619 10.8375 19.1981 11.5747 18.6187C12.6155 17.8008 12.6155 16.2405 11.5747 15.4225C10.8375 14.8432 9.96542 14.4223 8.98975 14.2087C8.77613 13.233 8.35522 12.361 7.77591 11.6238Z" fill={color} />
+      </g>
+      <defs>
+        <clipPath id="clip_sparkle">
+          <rect width="24" height="24" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
+
+function IcoBookmark({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M20.5596 19.75C20.6195 18.3715 20.667 16.2748 20.667 13.083C20.667 9.05979 20.5384 6.52152 20.4355 5.13183C20.3496 3.96851 19.6282 2.83992 18.3223 2.53124L18.3213 2.53027L17.8633 2.43163C16.7102 2.20338 14.9496 1.99999 12.333 1.99999C9.71671 2.00001 7.95639 2.20366 6.80273 2.43261L6.34473 2.53124C5.03873 2.83926 4.31769 3.96804 4.23145 5.13085C4.12805 6.52087 4.00001 9.05978 4 13.083C4 15.4769 4.0259 17.2551 4.06445 18.5762L4.10645 19.751C4.14856 20.7138 4.56787 21.6119 5.44922 22.0205C6.30616 22.4177 7.26109 22.1918 8.04102 21.6797L11.373 19.4932C11.6582 19.306 11.9919 19.2061 12.333 19.206C12.6742 19.206 13.0087 19.306 13.2939 19.4932L16.626 21.6787C17.4058 22.1911 18.3607 22.4179 19.2178 22.0205C20.0991 21.6117 20.5176 20.7131 20.5596 19.75Z" fill={color} />
+    </svg>
+  );
+}
+
+function IcoProfile({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M12 23C19.04 23 23 19.04 23 12C23 4.96 19.04 1 12 1C4.96 1 1 4.96 1 12C1 19.04 4.96 23 12 23ZM17.7147 19.1167C17.3146 18.3712 16.7694 17.7059 16.1049 17.1628C14.9464 16.2159 13.4963 15.6986 12.0001 15.6986C10.504 15.6986 9.05382 16.2159 7.8954 17.1628C7.23086 17.7059 6.68576 18.3712 6.28555 19.1167C7.59359 20.0569 9.45378 20.6429 12.0002 20.6429C14.5465 20.6429 16.4067 20.0569 17.7147 19.1167ZM15.7009 9.27953C15.7009 11.6488 14.3682 12.9815 11.9989 12.9815C9.6297 12.9815 8.29701 11.6488 8.29701 9.27953C8.29701 6.9103 9.6297 5.5776 11.9989 5.5776C14.3682 5.5776 15.7009 6.9103 15.7009 9.27953Z" fill={color} />
+    </svg>
+  );
+}
+
+/* ── Tab Configuration (Figma 기준 순서) ── */
 
 const tabs = [
-  { key: 'home', label: '발견', href: '/', icon: SparklesIcon, iconActive: SparklesSolidIcon },
-  { key: 'explore', label: '베이커리', href: '/explore', icon: StorefrontIcon, iconActive: StorefrontSolidIcon },
-  { key: 'nearby', label: '주변', href: '/map', icon: LocationIcon, iconActive: LocationSolidIcon },
-  { key: 'saved', label: '저장', href: '/saved', icon: BookmarkIcon, iconActive: BookmarkSolidIcon },
-  { key: 'mypage', label: '마이페이지', href: '/profile', icon: UserCircleIcon, iconActive: ProfileSolidIcon },
+  { key: 'home', label: '홈', href: '/explore', Icon: IcoHome },
+  { key: 'nearby', label: '주변', href: '/map', Icon: IcoLocation },
+  { key: 'discover', label: '발견', href: '/', Icon: IcoSparkle },
+  { key: 'saved', label: '저장', href: '/saved', Icon: IcoBookmark },
+  { key: 'mypage', label: '마이페이지', href: '/profile', Icon: IcoProfile },
 ];
+
+const COLOR_ACTIVE = '#FF5C8D';
+const COLOR_INACTIVE = '#9E9E9E';
 
 export default function BottomTabBar() {
   const pathname = usePathname();
@@ -27,29 +74,56 @@ export default function BottomTabBar() {
   if (shouldHide) return null;
 
   return (
-    <nav id="bottom-nav-bar" className="sticky bottom-0 z-50 border-t border-surface-200/60 bg-white safe-area-bottom">
-      <div className="flex items-center justify-around px-2 py-1">
+    <nav
+      id="bottom-nav-bar"
+      className="sticky bottom-0 z-50 safe-area-bottom"
+      style={{
+        background: '#FFFFFF',
+        borderTop: '1px solid #F5F5F5',
+      }}
+    >
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '8px',
+      }}>
         {tabs.map((tab) => {
           const isActive =
             tab.href === '/'
               ? pathname === '/'
               : pathname.startsWith(tab.href);
-          const Icon = isActive ? tab.iconActive : tab.icon;
+          const color = isActive ? COLOR_ACTIVE : COLOR_INACTIVE;
 
           return (
             <Link
               key={tab.key}
               href={tab.href}
-              className={`flex flex-1 flex-col items-center gap-0.5 py-1.5 transition-colors ${
-                isActive
-                  ? 'text-primary-500'
-                  : 'text-surface-400 active:text-surface-600'
-              }`}
+              style={{
+                display: 'flex',
+                flex: 1,
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '0px',
+                textDecoration: 'none',
+                color,
+                transition: 'color 0.15s ease',
+              }}
             >
-              <div className="flex h-7 w-7 items-center justify-center">
-                <Icon className="h-6 w-6" />
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '4px',
+              }}>
+                <tab.Icon color={color} />
               </div>
-              <span className={`text-[11px] font-medium leading-tight ${isActive ? 'font-semibold text-primary-500' : 'text-surface-400'}`}>
+              <span style={{
+                fontFamily: 'Pretendard, -apple-system, sans-serif',
+                fontSize: '11px',
+                fontWeight: 500,
+                lineHeight: '125%',
+              }}>
                 {tab.label}
               </span>
             </Link>

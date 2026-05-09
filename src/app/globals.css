@@ -287,56 +287,93 @@ body {
   flex-shrink: 0;
 }
 
-/* Gallery 2-column Masonry */
+/* Gallery 2-column Masonry (Figma: home-list-thumb) */
 .gallery-grid {
   columns: 2;
-  column-gap: 0.5rem;
-  padding: 0.5rem 1rem 1rem;
+  column-gap: 8px;
+  padding: 8px 16px 16px;
 }
 
 .gallery-card {
-  @apply mb-4;
   break-inside: avoid;
+  margin-bottom: 20px;
 }
 
 .gallery-card-image {
-  @apply relative overflow-hidden rounded-2xl bg-surface-100;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: #F5F5F5;
 }
 
-.gallery-card-image img {
-  @apply w-full h-auto block;
+.gallery-card-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: opacity 0.3s ease;
 }
 
-.gallery-badge {
-  @apply rounded-md px-1.5 py-0.5 text-[9px] font-bold backdrop-blur-sm;
+/* Badge — bottom-right inside image */
+.gallery-card-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4);
 }
 
-.gallery-badge-portfolio {
-  @apply bg-primary-500/85 text-white;
+.gallery-card-badge span {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 125%;
+  color: #FFFFFF;
 }
 
-.gallery-badge-review {
-  @apply bg-white/85 text-surface-700;
+/* Text group — below image */
+.gallery-card-text {
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px;
+  margin-top: 8px;
 }
 
-.gallery-like-btn {
-  @apply absolute right-2 bottom-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/70 text-surface-500 backdrop-blur-sm transition-all hover:bg-white hover:text-primary-500 active:scale-90;
+.gallery-card-title {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+  color: #1A1A1A;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.gallery-card-info {
-  @apply px-1 pt-1.5 pb-1;
+.gallery-card-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 125%;
+  color: #9E9E9E;
 }
 
-.gallery-card-shop {
-  @apply truncate text-sm font-medium text-surface-800 leading-snug;
-}
-
-.gallery-card-meta {
-  @apply flex items-center gap-0.5 truncate text-[10px] text-surface-400 leading-snug;
-}
-
-.gallery-card-meta-dot {
-  @apply inline-block h-0.5 w-0.5 rounded-full bg-surface-300 flex-shrink-0;
+.gallery-card-dot {
+  display: inline-block;
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background-color: #BDBDBD;
+  flex-shrink: 0;
 }
 
 /* Gallery Empty State */

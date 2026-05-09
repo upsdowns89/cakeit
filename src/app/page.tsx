@@ -24,48 +24,50 @@ const FILTER_GROUPS: { key: FilterKey; label: string; options: readonly string[]
   { key: 'region', label: '지역', options: SEOUL_DISTRICTS },
 ];
 
-/* ─── Gallery Card ─── */
-function GalleryCard({ post, index, onSelect }: { post: GalleryPost; index: number; onSelect: (post: GalleryPost) => void }) {
+/* ─── Gallery Card (Figma: home-list-thumb, ratio=3:4) ─── */
+function GalleryCard({ post, onSelect }: { post: GalleryPost; index: number; onSelect: (post: GalleryPost) => void }) {
   const [loaded, setLoaded] = useState(false);
   const totalImages = 1 + (post.extra_images?.length || 0);
 
   return (
     <div className="gallery-card">
       <button onClick={() => onSelect(post)} className="group block w-full text-left">
-        {/* Thumbnail */}
+        {/* Thumbnail — 3:4 fixed ratio */}
         <div className="gallery-card-image">
           {!loaded && (
-            <div className="aspect-[3/4] w-full animate-shimmer rounded-2xl" />
+            <div className="absolute inset-0 animate-shimmer rounded-2xl" />
           )}
           <img
             src={post.image_url}
             alt={`${post.shop_name} 케이크`}
-            className={`transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`gallery-card-img ${loaded ? 'opacity-100' : 'opacity-0'}`}
             loading="lazy"
             onLoad={() => setLoaded(true)}
             onError={() => setLoaded(true)}
           />
-          {/* Multi-image badge */}
+          {/* Multi-image badge — bottom-right */}
           {totalImages > 1 && (
-            <div className="absolute top-2 right-2 z-10 flex items-center gap-0.5 rounded-full bg-black/60 px-1.5 py-0.5 backdrop-blur-sm">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                <rect x="1" y="3" width="10" height="10" rx="1.5" stroke="white" strokeWidth="1.5" fill="none" />
-                <rect x="5" y="1" width="10" height="10" rx="1.5" stroke="white" strokeWidth="1.5" fill="none" />
+            <div className="gallery-card-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path fillRule="evenodd" clipRule="evenodd" d="M12 1.39286C10.2459 1.39286 8.53925 1.55321 6.9191 1.7338C4.19499 2.03744 2.0077 4.22195 1.71554 6.9527C1.54305 8.56495 1.39285 10.2593 1.39285 12C1.39285 13.7408 1.54305 15.4351 1.71555 17.0473C2.0077 19.7781 4.19499 21.9625 6.9191 22.2661C8.53925 22.4469 10.2459 22.6071 12 22.6071C13.7541 22.6071 15.4607 22.4469 17.0809 22.2661C19.805 21.9625 21.9922 19.7781 22.2845 17.0473C22.4569 15.4351 22.6071 13.7408 22.6071 12C22.6071 10.2593 22.4569 8.56495 22.2845 6.9527C21.9922 4.22195 19.805 2.03744 17.0809 1.7338C15.4607 1.55321 13.7541 1.39286 12 1.39286ZM15.1993 11.5997C16.9912 11.5997 17.9989 10.5918 17.9989 8.80001C17.9989 7.00823 16.9912 6.00035 15.1993 6.00035C13.4075 6.00035 12.3997 7.00823 12.3997 8.80001C12.3997 10.5918 13.4075 11.5997 15.1993 11.5997ZM9.94315 12.59C12.6866 14.4575 15.0394 17.148 16.746 19.8889C15.1696 20.0636 13.5932 20.2074 12.0001 20.2074C10.3837 20.2074 8.78452 20.0595 7.185 19.8812C5.57438 19.7017 4.2736 18.3981 4.10178 16.7921C4.00843 15.9195 3.92442 15.046 3.86763 14.1691C4.43668 13.6862 5.05826 13.2523 5.90826 12.6607C7.09519 11.8348 8.6988 11.7429 9.94315 12.59Z" fill="white"/>
               </svg>
-              <span className="text-[10px] font-semibold text-white leading-none">{totalImages}</span>
+              <span>{totalImages}</span>
             </div>
           )}
         </div>
 
-        {/* Info */}
-        <div className="gallery-card-info">
-          <div className="flex items-center gap-1.5">
-            <p className="gallery-card-shop truncate">{post.menu_name || post.shop_name}</p>
+        {/* Text group */}
+        <div className="gallery-card-text">
+          <p className="gallery-card-title">{post.menu_name || post.shop_name}</p>
+          <div className="gallery-card-tags">
+            <span>{post.shop_name}</span>
             {post.cake_type && (
-              <span className="flex-shrink-0 rounded bg-surface-100 px-1.5 py-0.5 text-[10px] font-medium text-surface-500">{post.cake_type}</span>
+              <>
+                <span className="gallery-card-dot" />
+                <span>{post.cake_type}</span>
+              </>
             )}
           </div>
-          <p className="text-[11px] text-surface-400 leading-snug mt-0.5 truncate">{post.menu_name ? post.shop_name : ''}</p>
         </div>
       </button>
     </div>
@@ -77,11 +79,11 @@ function SkeletonCard() {
   return (
     <div className="gallery-card">
       <div className="gallery-card-image">
-        <div className="absolute inset-0 animate-shimmer rounded-2xl" />
+        <div className="absolute inset-0 animate-shimmer" />
       </div>
-      <div className="px-1 pt-1.5 space-y-1">
-        <div className="h-3 w-3/4 animate-shimmer rounded" />
-        <div className="h-2.5 w-1/2 animate-shimmer rounded" />
+      <div className="gallery-card-text">
+        <div className="h-[14px] w-3/4 animate-shimmer rounded" style={{ marginBottom: '4px' }} />
+        <div className="h-[12px] w-1/2 animate-shimmer rounded" />
       </div>
     </div>
   );
