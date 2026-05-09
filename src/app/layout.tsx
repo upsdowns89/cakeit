@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Navbar from '@/components/Navbar';
+import GNB from '@/components/GNB';
 import BottomTabBar from '@/components/BottomTabBar';
 import SupabasePrewarm from '@/components/SupabasePrewarm';
 
@@ -33,7 +33,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-white antialiased" suppressHydrationWarning>
         <SupabasePrewarm />
-        <Navbar />
+        <GNB />
         <main>{children}</main>
         <BottomTabBar />
       </body>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { createDataClient } from '@/lib/supabase/client';
@@ -38,8 +38,7 @@ export default function SavedPage() {
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<SaveGroup | null>(null);
   const [selectedPost, setSelectedPost] = useState<GalleryPost | null>(null);
-  const [showStickyHeader, setShowStickyHeader] = useState(false);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+
   const [groupImageCounts, setGroupImageCounts] = useState<Record<string, number>>({});
   const [imageGroupIdMap, setImageGroupIdMap] = useState<Record<string, string>>({});
 
@@ -100,26 +99,7 @@ export default function SavedPage() {
     loadPortfolioGroups();
   }, [userId, fetchSavedShops, loadPortfolioGroups]);
 
-  // Observe the big title to toggle sticky header
-  useEffect(() => {
-    setShowStickyHeader(false);
-    let observer: IntersectionObserver | null = null;
 
-    const rafId = requestAnimationFrame(() => {
-      const el = titleRef.current;
-      if (!el) return;
-      observer = new IntersectionObserver(
-        ([entry]) => setShowStickyHeader(!entry.isIntersecting),
-        { threshold: 0 }
-      );
-      observer.observe(el);
-    });
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      observer?.disconnect();
-    };
-  }, [selectedGroup, loading, userId]);
 
   // Fetch multi-image counts and group_id mapping when viewing group detail
   useEffect(() => {
@@ -319,9 +299,6 @@ export default function SavedPage() {
   if (!userId) {
     return (
       <div className="min-h-screen bg-white pb-20">
-        <div className="px-4 pt-8 pb-4">
-          <h1 className="text-[32px] font-bold tracking-[-0.12px] text-black">저장</h1>
-        </div>
         <div className="flex flex-col items-center justify-center py-20 text-center px-6">
           <div className="mb-5 flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-primary-50 to-warm-50">
             <BookmarkIcon className="h-10 w-10 text-primary-300" />
@@ -349,18 +326,6 @@ export default function SavedPage() {
 
   return (
     <div className="min-h-screen bg-white pb-20">
-      {/* ─── Sticky GNB (appears when title scrolls out) ─── */}
-      <div
-        className="saved-sticky-gnb"
-        style={{ transform: showStickyHeader ? 'translateY(0)' : 'translateY(-100%)' }}
-      >
-        <span className="text-[16px] font-semibold text-surface-900">저장</span>
-      </div>
-
-      {/* ─── Page Title (Figma: 24px SemiBold) ─── */}
-      <div className="px-4 pt-8 pb-2">
-        <h1 ref={titleRef} className="text-[32px] font-bold tracking-[-0.12px] text-black">저장</h1>
-      </div>
 
       {/* ─── Empty State ─── */}
       {isAllEmpty && (
