@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, useCallback, Suspense, useRef } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, Suspense, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { createDataClient } from '@/lib/supabase/client';
 import type { ShopWithImages, SearchFilters } from '@/lib/types';
@@ -693,7 +693,7 @@ function SearchContent() {
             </button>
           </div>
         ) : (
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-4">
             {filteredShops.map((shop, index) => {
               const cardShop: ShopListCardShop = {
                 id: shop.id,
@@ -710,11 +710,15 @@ function SearchContent() {
                 shop_menus: shop.shop_menus as ShopListCardShop['shop_menus'],
               };
               return (
-                <ShopListCard
-                  key={shop.id}
-                  shop={cardShop}
-                  showDivider={index < filteredShops.length - 1}
-                />
+                <React.Fragment key={shop.id}>
+                  <ShopListCard
+                    shop={cardShop}
+                    showDivider={false}
+                  />
+                  {index < filteredShops.length - 1 && (
+                    <div className="slc-divider" />
+                  )}
+                </React.Fragment>
               );
             })}
           </div>
