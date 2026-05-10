@@ -2,39 +2,24 @@
 
 import { useEffect, useState, useMemo, useCallback, Suspense, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { createDataClient } from '@/lib/supabase/client';
 import type { ShopWithImages, SearchFilters } from '@/lib/types';
-import { getShopImageUrl, CAKE_TYPE_OPTIONS } from '@/lib/types';
+import { CAKE_TYPE_OPTIONS } from '@/lib/types';
+import ShopListCard, { type ShopListCardShop } from '@/components/ShopListCard';
 import {
-  CakeIcon,
   MagnifyingGlassIcon,
-  MapPinIcon,
-  MapIcon,
   TruckIcon,
   CalendarIcon,
   CurrencyIcon,
   XMarkIcon,
   AdjustmentsIcon,
-  ChevronRightIcon,
   ChevronDownIcon,
   ClockIcon,
   FireIcon,
-  ArrowLeftIcon,
+  MapPinIcon,
 } from '@/components/icons';
 
-const KakaoMap = dynamic(() => import('@/components/KakaoMap'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-64 items-center justify-center bg-surface-100 rounded-2xl">
-      <div className="text-center text-surface-400">
-        <MapIcon className="h-8 w-8 mx-auto mb-2" />
-        <p className="text-sm">지도 로딩 중...</p>
-      </div>
-    </div>
-  ),
-});
+
 
 const SEOUL_REGIONS = [
   '전체', '강남구', '강동구', '강북구', '강서구', '관악구', '광진구',
@@ -104,15 +89,7 @@ function getDistanceKm(lat1: number, lng1: number, lat2: number, lng2: number): 
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-/* ─── Format price ─── */
-function fmtPrice(v: number): string {
-  if (v >= 10000) {
-    const m = v / 10000;
-    return m % 1 === 0 ? `${m}만원` : `${m.toFixed(1)}만원`;
-  }
-  return `${v.toLocaleString()}원`;
-}
-
+/* ─── Price range helper (for sort) ─── */
 function getPriceRange(shop: ShopWithExtras): { min: number; max: number } | null {
   const menus = shop.shop_menus;
   if (!menus || menus.length === 0) return null;
@@ -127,187 +104,6 @@ function getPriceRange(shop: ShopWithExtras): { min: number; max: number } | nul
   }
   if (gMin === Infinity) return null;
   return { min: gMin, max: gMax };
-}
-
-function getShortArea(shop: ShopWithImages): string {
-  if (shop.area) return shop.area;
-  if (shop.district) return shop.district;
-  if (shop.address) {
-    const match = shop.address.match(/([가-힣]+[시군구])\s*([가-힣]+[구동면읍])/);
-    if (match) return match[2].replace(/[구동면읍]$/, '');
-  }
-  return '';
-}
-
-/* ─── Map Bottom Sheet ─── */
-function MapBottomSheet({
-  shop,
-  onClose,
-}: {
-  shop: ShopWithExtras;
-  onClose: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center" onClick={onClose}>
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-      {/* Sheet */}
-      <div
-        className="relative z-10 w-full max-w-[480px] animate-slide-up rounded-t-2xl bg-white pb-8 safe-area-bottom"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Handle */}
-        <div className="flex justify-center pt-3 pb-3">
-          <div className="h-1 w-10 rounded-full bg-surface-300" />
-        </div>
-
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 pb-3">
-          <h3 className="text-base font-bold text-surface-900">{shop.name}</h3>
-          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-surface-100">
-            <XMarkIcon className="h-5 w-5 text-surface-500" />
-          </button>
-        </div>
-
-        {/* Map */}
-        {shop.lat && shop.lng ? (
-          <div className="mx-4 overflow-hidden rounded-xl border border-surface-200">
-            <KakaoMap shops={[shop]} className="h-48" />
-          </div>
-        ) : (
-          <div className="mx-4 flex h-48 items-center justify-center rounded-xl bg-surface-100">
-            <p className="text-sm text-surface-400">위치 정보가 없습니다</p>
-          </div>
-        )}
-
-        {/* Address */}
-        <div className="mt-3 px-4">
-          <div className="flex items-start gap-2 rounded-xl bg-surface-50 p-3">
-            <MapPinIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-500" />
-            <div>
-              <p className="text-sm font-medium text-surface-800">{shop.address || '주소 정보 없음'}</p>
-              {shop.naver_map_url && (
-                <a
-                  href={shop.naver_map_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 inline-block text-xs font-medium text-primary-500"
-                >
-                  네이버 지도에서 보기 →
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Search Card with multi-image carousel ─── */
-function SearchShopCard({
-  shop,
-  index,
-  onShowMap,
-}: {
-  shop: ShopWithExtras;
-  index: number;
-  onShowMap: (shop: ShopWithExtras) => void;
-}) {
-  const primaryImage = getShopImageUrl(shop);
-  const galleryImages = shop.shop_gallery_images || [];
-  const shortArea = getShortArea(shop);
-  const priceRange = getPriceRange(shop);
-
-  // Build image list: primary image first, then gallery
-  const allImages = useMemo(() => {
-    const imgs: string[] = [];
-    if (primaryImage) imgs.push(primaryImage);
-    for (const gi of galleryImages) {
-      if (gi.url && !imgs.includes(gi.url)) imgs.push(gi.url);
-    }
-    if (shop.images) {
-      for (const img of shop.images) {
-        if (img.url && !imgs.includes(img.url)) imgs.push(img.url);
-      }
-    }
-    return imgs;
-  }, [primaryImage, galleryImages, shop.images]);
-
-  return (
-    <div
-      className="animate-fade-in"
-      style={{ animationDelay: `${index * 0.04}s` }}
-    >
-      {/* Multi-image horizontal carousel */}
-      {allImages.length > 0 ? (
-        <div
-          className="flex gap-2 overflow-x-auto hide-scrollbar"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {allImages.map((url, i) => (
-            <Link
-              href={`/shop/${shop.id}`}
-              key={i}
-              className="flex-shrink-0 first:ml-0"
-              style={{ width: allImages.length === 1 ? '100%' : '72%' }}
-            >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-surface-100">
-                <img src={url} alt={shop.name} className="h-full w-full object-cover" />
-              </div>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <Link href={`/shop/${shop.id}`}>
-          <div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-gradient-to-br from-primary-50 to-warm-50">
-            <CakeIcon className="h-12 w-12 text-primary-200" />
-          </div>
-        </Link>
-      )}
-
-      {/* Text Group */}
-      <Link href={`/shop/${shop.id}`} className="block mt-2.5">
-        <h3 className="text-[15px] font-bold text-surface-900">{shop.name}</h3>
-        <div className="mt-0.5 flex items-center gap-1.5">
-          {shortArea && (
-            <span className="text-xs text-surface-400">{shortArea}</span>
-          )}
-          {shortArea && priceRange && (
-            <span className="text-xs text-surface-300">·</span>
-          )}
-          {priceRange && (
-            <span className="text-xs font-semibold text-primary-600">
-              {priceRange.min === priceRange.max
-                ? fmtPrice(priceRange.min)
-                : `${fmtPrice(priceRange.min)}-${fmtPrice(priceRange.max)}`}
-            </span>
-          )}
-        </div>
-        {/* Tags */}
-        {(shop.is_delivery || shop.is_pickup) && (
-          <div className="mt-1.5 flex gap-1">
-            {shop.is_pickup && (
-              <span className="rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-600">픽업</span>
-            )}
-            {shop.is_delivery && (
-              <span className="rounded-md bg-blue-50 px-1.5 py-0.5 text-[10px] font-medium text-blue-600">배달</span>
-            )}
-          </div>
-        )}
-      </Link>
-
-      {/* 위치보기 button */}
-      <button
-        onClick={() => onShowMap(shop)}
-        className="mt-2 flex items-center gap-0.5 text-xs font-medium text-surface-400 transition-colors hover:text-primary-500"
-      >
-        <MapPinIcon className="h-3 w-3" />
-        위치보기
-        <ChevronRightIcon className="h-3 w-3" />
-      </button>
-    </div>
-  );
 }
 
 /* ─── Recent Search helpers ─── */
@@ -356,7 +152,6 @@ function SearchContent() {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>('popular');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
-  const [mapShop, setMapShop] = useState<ShopWithExtras | null>(null);
   const sortRef = useRef<HTMLDivElement>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
@@ -898,24 +693,36 @@ function SearchContent() {
             </button>
           </div>
         ) : (
-          <div className="space-y-6">
-            {filteredShops.map((shop, index) => (
-              <SearchShopCard
-                key={shop.id}
-                shop={shop}
-                index={index}
-                onShowMap={setMapShop}
-              />
-            ))}
+          <div className="flex flex-col">
+            {filteredShops.map((shop, index) => {
+              const cardShop: ShopListCardShop = {
+                id: shop.id,
+                name: shop.name,
+                address: shop.address,
+                district: shop.district,
+                area: shop.area,
+                is_delivery: shop.is_delivery,
+                is_pickup: shop.is_pickup,
+                is_custom_order: (shop as any).is_custom_order,
+                cake_types: shop.cake_types,
+                images: shop.images,
+                shop_gallery_images: shop.shop_gallery_images,
+                shop_menus: shop.shop_menus as ShopListCardShop['shop_menus'],
+              };
+              return (
+                <ShopListCard
+                  key={shop.id}
+                  shop={cardShop}
+                  showDivider={index < filteredShops.length - 1}
+                />
+              );
+            })}
           </div>
         )}
         </div>
       )}
 
-      {/* Map Bottom Sheet */}
-      {mapShop && (
-        <MapBottomSheet shop={mapShop} onClose={() => setMapShop(null)} />
-      )}
+
     </div>
   );
 }
